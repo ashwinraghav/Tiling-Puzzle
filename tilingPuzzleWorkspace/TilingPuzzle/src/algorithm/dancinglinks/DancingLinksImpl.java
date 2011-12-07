@@ -219,7 +219,7 @@ public class DancingLinksImpl
 	{
 		
 	//	System.out.println("this is attempt number " + (++attempt));
-		boolean isPrint = true;
+		boolean isPrint = false;
 		if(header.right == header)
 		{
 			//print solution
@@ -384,11 +384,11 @@ public class DancingLinksImpl
 		
 		if(retVal == null || retVal.size == 0)
 		{
-			System.out.println("NOTHING TO CHOOSE");
+//			System.out.println("NOTHING TO CHOOSE");
 			return null;
 		}
 			
-		System.out.println("Choosing tile #:" + retVal.getName());
+//		System.out.println("Choosing tile #:" + retVal.getName());
 		
 		if(retVal.size == 0)
 			return null;
