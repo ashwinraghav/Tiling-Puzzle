@@ -1,0 +1,25 @@
+package algorithm;
+
+import java.util.ArrayList;
+
+import puzzle.Domino;
+import puzzle.Tile;
+
+public class TileTurner 
+{
+
+	public static ArrayList<Tile> getTurnedTileList(Tile tile, Domino[][] matrix)
+	{
+						
+		turnTile(tile, matrix);
+		//Anti clock-wise 90deg
+				
+		return null;
+	}
+
+	private static void turnTile(Tile tile, Domino[][] matrix) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}

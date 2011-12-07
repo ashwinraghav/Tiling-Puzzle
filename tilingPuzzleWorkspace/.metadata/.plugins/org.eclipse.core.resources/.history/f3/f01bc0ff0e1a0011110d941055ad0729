@@ -1,0 +1,120 @@
+package main;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
+
+import algorithm.PartIdentifier;
+import algorithm.dancinglinks.DancingLinksImpl;
+import algorithm.dancinglinks.DataObject;
+import puzzle.Domino;
+import puzzle.Game;
+import puzzle.Tile;
+import fileHandler.FileReader;
+import fileHandler.InputMatrixInfo;
+
+public class Driver
+{
+
+	public int numSolns;
+	
+	static public void start(String fileName)
+	{
+		InputMatrixInfo inputMatrix = FileReader.doPassOne(new File(fileName));
+		int numRows = inputMatrix.getNumRows();
+		int numCols = inputMatrix.getNumCols();
+		Domino[][] matrix = new Domino[numRows][numCols];
+		FileReader.loadMatrix(new File(fileName), matrix);
+		
+	//	printMatrix(matrix, numRows, numCols);
+		
+		Game game = PartIdentifier.startIdentification(matrix, numRows, numCols);
+		printGame(game);
+
+		DataObject header = new DataObject();
+				
+		int colSize = game.getTileList().size() + game.getBoard().getNumDominos();
+		ArrayList<DataObject> topPointerList = new ArrayList<DataObject>(colSize);
+		DancingLinksImpl.initializeTop(header, colSize, topPointerList);
+		DancingLinksImpl.rightPrint(header);
+		DancingLinksImpl.leftPrint(header);
+		
+//		printTopPointerList(topPointerList);
+		HashMap< Tile, ArrayList<ArrayList<Integer>>> mapping = DancingLinksImpl.initializeGrid(game.getTileList(), game.getBoard(), matrix);
+		printMapping(mapping);				
+		
+		DancingLinksImpl.loadGrid(mapping, topPointerList, game.getBoard(), game.getTileList().size());
+		DancingLinksImpl.printGrid(header); 
+		
+		DataObject[] dObj = new DataObject[colSize]; 		
+		DancingLinksImpl.doExtraCover(0,dObj,0, header);
+	}
+
+	
+	private static void printMapping(
+			HashMap<Tile, ArrayList<ArrayList<Integer>>> mapping) 
+	{
+		
+		Set<Tile> tileSet = mapping.keySet();
+		
+		for(Tile tile : tileSet)
+		{
+			ArrayList<ArrayList<Integer>> mapped = mapping.get(tile);
+			System.out.println("tile " + tile.getId() + "covers");
+			for(ArrayList<Integer> colIds : mapped)
+			{
+				for(Integer coldId : colIds)
+				{
+					System.out.print(coldId + " ");
+				}
+				System.out.println();
+			}
+			
+		}
+		
+	}
+
+
+	private static void printGame(Game game)
+	{
+		ArrayList<Tile> tileList = game.getTileList();
+		Tile board = game.getBoard();
+		for(Tile tile : tileList)
+			System.out.println(tile);
+		
+		System.out.println("board:::");
+		System.out.println(board);
+		
+	}
+	
+	@SuppressWarnings("unused")
+	private static void printMatrix(Domino[][] matrix, int rows, int cols) 
+	{
+		
+		for(int i=0; i<rows; ++i)
+		{
+			for(int j=0; j<cols; ++j)
+			{
+				if(matrix[i][j] == null)
+					 System.out.print("n ");
+				 else
+					 System.out.print(matrix[i][j] + " ");
+			}
+			System.out.println();
+		 }	 
+	}		
+
+	
+	@SuppressWarnings("unused")
+	private static void printTopPointerList(ArrayList<DataObject> topPointerList)
+	{
+		System.out.println("topPointerPrint");
+		for(int lcv=0; lcv<topPointerList.size() ;++lcv)
+		{
+			System.out.println(topPointerList.get(lcv));
+		}		
+	}
+	
+	
+}

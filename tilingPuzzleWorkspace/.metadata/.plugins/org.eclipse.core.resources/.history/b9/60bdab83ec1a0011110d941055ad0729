@@ -1,0 +1,59 @@
+package algorithm;
+
+import java.util.ArrayList;
+
+import puzzle.Domino;
+import puzzle.Tile;
+
+public class TileTurner 
+{
+
+	public static ArrayList<Tile> getTurnedTileList(Tile tile, Domino[][] matrix)
+	{
+						
+		//reflect input matrix first
+		reflectTile(tile,matrix, tile.getyDimension(), tile.getxDimension());
+		turnTile(tile, turnTile(tile,turnTile(tile,matrix,tile.getxDimension(), tile.getyDimension()), tile.getyDimension(), tile.getxDimension()), tile.getxDimension(), tile.getyDimension());
+		//This basically turns 90 deg first; then turns the 90 degree turn by 90; turns that by 90; 
+				
+		return null;
+	}
+
+	private static void reflectTile(Tile tile, Domino[][] matrix, int i, int j)
+	{
+		
+		
+	}
+
+	private static Domino[][] turnTile(Tile tile, Domino[][] matrix, int rows, int cols) 
+	{
+		Domino[][] matrix90anti = new Domino[rows][cols];
+		
+		int i=0,j=0;
+		for(i=0; i<tile.getyDimension(); ++i)
+		{
+			for(j=0; j< tile.getxDimension(); ++j)
+			{
+				matrix90anti[i][j] = matrix[j][i];
+			}
+		}
+		
+		tile.addFlippedTileMatrix(matrix90anti);
+		
+		//Clock-wise 90deg
+		//j represents the last column + 1
+		Domino[][] matrix90clk = new Domino[rows][cols];
+		for(int lcv=0; lcv<tile.getyDimension(); ++lcv)
+		{
+			for(int lcv2=0; lcv2< tile.getxDimension(); ++lcv2)
+			{
+				matrix90clk[lcv][j-lcv2-1] = matrix90anti[lcv][lcv2];
+			}
+		}
+		
+		tile.addFlippedTileMatrix(matrix90clk);
+
+		return matrix90clk;
+	}
+	
+}

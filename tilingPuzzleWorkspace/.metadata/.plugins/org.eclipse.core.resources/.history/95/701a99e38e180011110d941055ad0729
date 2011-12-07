@@ -1,0 +1,7 @@
+package puzzle;
+
+public enum State {
+	Alive,
+	Dead,
+	Reconfiguring;
+	}

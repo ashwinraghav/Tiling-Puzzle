@@ -1,0 +1,66 @@
+package main;
+
+import java.io.File;
+import java.util.ArrayList;
+
+import algorithm.PartIdentifier;
+import algorithm.dancinglinks.DancingLinksImpl;
+import algorithm.dancinglinks.DataObject;
+import puzzle.Domino;
+import puzzle.Game;
+import puzzle.Tile;
+import fileHandler.FileReader;
+import fileHandler.InputMatrixInfo;
+
+public class Driver
+{
+
+	static public void start(String fileName)
+	{
+		InputMatrixInfo inputMatrix = FileReader.doPassOne(new File(fileName));
+		int numRows = inputMatrix.getNumRows();
+		int numCols = inputMatrix.getNumCols();
+		Domino[][] matrix = new Domino[numRows][numCols];
+		FileReader.loadMatrix(new File(fileName), matrix);
+		
+		printMatrix(matrix, numRows, numCols, false);
+		
+		Game game = PartIdentifier.startIdentification(matrix, numRows, numCols);
+		printGame(game);
+
+		DataObject header = new DataObject();
+		int colSize = game.getTileList().size() + game.getBoard().getNumDominos();
+		DancingLinksImpl.initializeTop(header, colSize);
+		DancingLinksImpl.forwardPrint(header);
+	}
+
+	private static void printGame(Game game)
+	{
+		ArrayList<Tile> tileList = game.getTileList();
+		Tile board = game.getBoard();
+		for(Tile tile : tileList)
+			System.out.println(tile);
+		
+		System.out.println("board:::");
+		System.out.println(board);
+		
+	}
+	
+	private static void printMatrix(Domino[][] matrix, int rows, int cols, boolean toPrint) 
+	{
+		if(!toPrint)
+			return;
+		
+		for(int i=0; i<rows; ++i)
+		{
+			for(int j=0; j<cols; ++j)
+			{
+				if(matrix[i][j] == null)
+					 System.out.print("n ");
+				 else
+					 System.out.print(matrix[i][j] + " ");
+			}
+			System.out.println();
+		 }	 
+	}		
+}

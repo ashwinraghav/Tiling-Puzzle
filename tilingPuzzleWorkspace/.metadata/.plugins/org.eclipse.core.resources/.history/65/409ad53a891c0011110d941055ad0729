@@ -1,0 +1,163 @@
+package utility;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
+
+import puzzle.Domino;
+import puzzle.Game;
+import puzzle.Tile;
+import algorithm.dancinglinks.DataObject;
+
+public class Printing
+{
+
+
+	public static void rightPrint(DataObject header) 
+	{
+		
+		DataObject tmp = header.getRight();
+		System.out.println("right print");
+		int count = 0;
+		while(tmp != header)
+		{
+			System.out.print(tmp.getName() +" ");
+			tmp = tmp.getRight();
+			count++;
+		}
+		System.out.println("total number of elements = " + count);
+		
+	}
+	
+	public static void leftPrint(DataObject header) 
+	{
+		System.out.println("left print");
+		DataObject tmp = header.getLeft();
+		int count = 0;
+		while(tmp != header)
+		{
+			System.out.print(tmp.getName()+ " ");
+			tmp = tmp.getLeft();
+			count++;
+		}
+		System.out.println("total number of elements = " + count);
+	}
+	
+	public static void printMapping(
+			HashMap<Tile, Set<ArrayList<Integer>>> mapping) 
+	{
+		
+		Set<Tile> tileSet = mapping.keySet();
+		
+		for(Tile tile : tileSet)
+		{
+			Set<ArrayList<Integer>> mapped = mapping.get(tile);
+			System.out.println("tile " + tile.getId() + "covers");
+			for(ArrayList<Integer> colIds : mapped)
+			{
+				for(Integer coldId : colIds)
+				{
+					System.out.print(coldId + " ");
+				}
+				System.out.println();
+			}
+			
+		}
+		
+	}
+	
+	public static void printGrid(DataObject header, ArrayList<DataObject> colPointerList) 
+	{
+		
+		DataObject tmp = header.getRight();
+		int count = 0;
+		
+		while(tmp != header)
+		{
+			System.out.print(tmp.getName() +"\t");
+			tmp = tmp.getRight();
+			++count;
+		}
+		System.out.println();
+		
+		int[][] matrix = new int [colPointerList.size()][count];
+		
+		for( int i=0; i< colPointerList.size(); ++i )
+		{
+			DataObject lcv = colPointerList.get(i);
+			tmp = lcv.getRight();
+			
+			while(tmp != lcv)
+			{
+				matrix[i][Integer.parseInt(tmp.getColData().getName())] = 1;
+				tmp = tmp.getRight();
+			}
+			matrix[i][Integer.parseInt(tmp.getColData().getName())] = 1;
+			
+		}
+		
+		for(int i=0; i< colPointerList.size(); i++)
+		{
+			for(int j=0; j<count; ++j)
+			{
+				if(matrix[i][j] != 1)
+					System.out.print("0\t");
+				else
+					System.out.print("1\t");
+			}
+			System.out.println();
+		}
+	}
+	
+	
+	public static void printTopPointerList(ArrayList<DataObject> topPointerList)
+	{
+		System.out.println("topPointerPrint");
+		for(int lcv=0; lcv<topPointerList.size() ;++lcv)
+		{
+			System.out.println(topPointerList.get(lcv));
+		}		
+	}
+
+	public static void printMatrix(Domino[][] matrix, int rows, int cols) 
+	{
+		
+		for(int i=0; i<rows; ++i)
+		{
+			for(int j=0; j<cols; ++j)
+			{
+				if(matrix[i][j] == null)
+					 System.out.print("n ");
+				 else
+					 System.out.print(matrix[i][j] + " ");
+			}
+			System.out.println();
+		 }	 
+	}
+	
+	
+	public static void printGame(Game game)
+	{
+		ArrayList<Tile> tileList = game.getTileList();
+		Tile board = game.getBoard();
+		for(Tile tile : tileList)
+			System.out.println(tile);
+		
+		System.out.println("board:::");
+		System.out.println(board);
+		
+	}
+
+	public static void getNumCoveredByEachTile(DataObject header, int maxNumbers) 
+	{
+		int i = 0;
+		DataObject tmp = header.getRight();
+		while(tmp != header && i < maxNumbers)
+		{
+			tmp = tmp.getRight();
+			++i;
+		}
+		
+	}
+	
+}

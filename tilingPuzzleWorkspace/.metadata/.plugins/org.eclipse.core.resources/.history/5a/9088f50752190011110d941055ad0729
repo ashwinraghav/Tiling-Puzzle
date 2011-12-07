@@ -1,0 +1,31 @@
+package puzzle;
+
+public class Domino
+{
+	private Color color;
+	private char val;
+	private int id;
+	
+	public Domino(char val)
+	{
+		color = Color.Grey;
+		this.val = val;
+		id = -1;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return Character.toString(val);
+	}
+	
+	public Color getColor()
+	{
+		return color;
+	}
+	
+	public void setColor(Color newColor)
+	{
+		color = newColor;
+	}
+}

@@ -1,0 +1,88 @@
+package puzzle;
+
+import java.util.Collection;
+import java.util.LinkedList;
+
+import algorithm.Cell;
+
+public class Tile
+{
+	private Cell startingCell;
+	private Cell endingCell;
+	private int xDimension;
+	private int yDimension;
+	private int numDominos;
+	private int id;
+	private Domino[][] matrix;	//this is the matrix associated with the tile
+	Collection<Domino> dominoList;
+	
+	
+	public Tile(Cell startCell, Cell endCell, int numDominos, Collection<Domino> dominoList, Domino[][] matrix)
+	{
+		startingCell = startCell;
+		endingCell = endCell;
+		yDimension = (endingCell.getI() - startCell.getI() + 1);
+		xDimension = (endingCell.getJ() - startCell.getJ() + 1);
+		this.numDominos = numDominos;
+		id = 0;
+		this.dominoList = new LinkedList<Domino>();
+		this.dominoList.addAll(dominoList);
+		this.matrix = matrix;
+	}
+
+	public Cell getStartingCell() {
+		return startingCell;
+	}
+
+	public Cell getEndingCell() {
+		return endingCell;
+	}
+
+	public int getxDimension() {
+		return xDimension;
+	}
+
+	public int getyDimension() {
+		return yDimension;
+	}
+
+	public int getNumDominos() {
+		return numDominos;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return Integer.toString(id) + ": " + startingCell + " to " + endingCell + dominoList.size() + "dominoes";
+	}
+
+	public void nameAllDominos(Domino[][] matrix) 
+	{
+		int id = 0;
+		for(int i=startingCell.getI(), lcv1 =0; lcv1<yDimension; ++lcv1, ++i)
+		{
+			for(int j=startingCell.getJ(), lcv2=0; lcv2<xDimension; ++j, ++lcv2)
+			{
+				
+				if(matrix[i][j] == null)
+					continue;
+				else
+					matrix[i][j].setId(id++);
+			}
+		}
+	}
+
+
+	public Domino[][] getMatrix() {
+		return matrix;
+	}
+	
+}

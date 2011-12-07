@@ -1,0 +1,12 @@
+package main;
+
+import fileHandler.FileReader;
+
+public class Driver
+{
+	public static void main(String[] args)
+	{
+		String inputFile = new String ("/home/avinash/Desktop/cs6161Project/inputSets/trivial.txt");
+		FileReader.read(inputFile);
+	}
+}

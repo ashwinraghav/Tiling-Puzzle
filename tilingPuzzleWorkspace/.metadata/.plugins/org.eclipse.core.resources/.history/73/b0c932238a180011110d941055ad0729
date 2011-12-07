@@ -1,0 +1,11 @@
+package fileHandler;
+
+public class FileReader
+{
+	
+	static void read()
+	{
+		
+	}
+	
+}

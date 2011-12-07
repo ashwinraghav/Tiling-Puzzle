@@ -1,0 +1,30 @@
+package algorithm.dancinglinks;
+
+public class DataObject
+{
+
+	DataObject left;
+	DataObject right;
+	DataObject up;
+	DataObject down;
+	DataObject colData;
+	
+	int logicalRow;
+	int logicalCol;
+	
+	int size;
+	String name;
+	
+	public void setName(String s) 
+	{
+		name = s;
+		
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "[" + logicalRow +"," + logicalCol + "," + size + "]";
+	}
+	
+}

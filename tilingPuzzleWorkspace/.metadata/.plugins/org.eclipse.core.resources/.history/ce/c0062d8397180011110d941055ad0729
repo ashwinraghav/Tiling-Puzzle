@@ -1,0 +1,24 @@
+package puzzle;
+
+public class Domino
+{
+	private Color color;
+	private char val;
+	
+	public Domino(char val)
+	{
+		color = Color.Grey;
+		this.val = val;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return Character.toString(val);
+	}
+	
+	public Color getColor()
+	{
+		return color;
+	}
+}

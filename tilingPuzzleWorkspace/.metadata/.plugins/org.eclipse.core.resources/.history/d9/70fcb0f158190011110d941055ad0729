@@ -1,0 +1,124 @@
+package algorithm.dancinglinks;
+
+import java.util.ArrayList;
+
+import puzzle.Domino;
+import puzzle.Tile;
+
+public class DancingLinksImpl
+{
+
+	public static void initializeTop(DataObject header, int colSize, ArrayList<DataObject> topPointerList )
+	{
+		
+		DataObject current = header;
+		int len = colSize;
+		int name = 0;
+		
+		for(int j=0; j < len; ++j)
+		{
+			DataObject tmp = new DataObject(Integer.toString(name));			
+			name += 1;
+			
+			current.right = tmp;
+			tmp.left = current;
+			current = tmp;
+			
+		/*	tmp.down = tmp;
+			tmp.up = tmp;
+		*/	
+			if(j+1 >= len)
+			{
+				tmp.right = header;
+				header.left = tmp;
+			}	
+			
+			topPointerList.add(j, tmp);
+		}								
+	}
+	
+	public static void rightPrint(DataObject header) 
+	{
+		
+		DataObject tmp = header.right;
+		System.out.println("forward print");
+		while(tmp != header)
+		{
+			System.out.print(tmp.name +" ");
+			tmp = tmp.right;
+		}
+		System.out.println();
+	}
+	
+	public static void leftPrint(DataObject header) 
+	{
+		System.out.println("reverse print");
+		DataObject tmp = header.left;
+		while(tmp != header)
+		{
+			System.out.print(tmp.name+ " ");
+			tmp = tmp.left;
+		}
+		System.out.println();
+	}
+
+	public static void initializeGrid(ArrayList<Tile> tileList, Tile board, Domino[][] matrix ) 
+	{
+		/*TODO: This algorithm is naive - brute-force 
+		*/
+		
+		int nRows = board.getyDimension();
+		int nCols = board.getxDimension();
+		int i,j,k,l, lcv1, lcv2;	//loop-control variables
+		
+		for(Tile tile : tileList)
+		{
+			boolean flag = true;
+			int xDim = tile.getxDimension();
+			int yDim = tile.getyDimension();
+			for(lcv1 = board.getStartingCell().getI(); lcv1 < (nRows - yDim) ; lcv1++)
+			{
+				
+				for(lcv2= board.getStartingCell().getJ(); lcv2 < (nCols - xDim) ; lcv2++)
+				{
+					ArrayList<Integer> columnId = new ArrayList(xDim*yDim); 
+					
+					for(i= lcv1, k= tile.getStartingCell().getI(); i<nRows && k < yDim && flag == true; i++,k++ )
+					{
+						for(j = lcv2, l = tile.getStartingCell().getJ(); j<nCols && l < xDim && flag == true; j++, l++)
+						{
+							
+							if(matrix[k][l] == null)	//empty cell
+								continue;	
+							if(matrix[k][l].equals(matrix[i][j]))
+							{
+								//get ColumnId
+								columnId.add(matrix[i][j].getId());
+								continue;
+							}
+							
+							flag = false;
+							
+						}
+						
+					}
+					
+					if(flag == true)
+					{
+						//do book-marking saying this tile covers this-all columns
+						System.out.println("Tile" + tile.getId() + "covers columns");
+						for(int lcv : columnId)
+						{
+							System.out.print(lcv + " ");
+						}
+					}
+					
+					flag = true;
+				}
+				
+			}
+		}
+		
+	}
+	
+}

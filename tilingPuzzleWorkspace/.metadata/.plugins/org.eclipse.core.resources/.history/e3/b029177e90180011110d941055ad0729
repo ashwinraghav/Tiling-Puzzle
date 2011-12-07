@@ -1,0 +1,26 @@
+package main;
+
+import java.io.File;
+
+import puzzle.Domino;
+
+import fileHandler.FileReader;
+import fileHandler.InputMatrixInfo;
+
+public class Driver
+{
+
+	static public void start(String fileName)
+	{
+		InputMatrixInfo inputMatrix = FileReader.doPassOne(new File(fileName));
+		int numRows = inputMatrix.getNumRows();
+		int numCols = inputMatrix.getNumCols();
+		Domino[][] matrix = new Domino[numRows][numCols];
+		FileReader.loadMatrix(new File(fileName), matrix);
+
+		
+		
+	}
+	
+	
+}

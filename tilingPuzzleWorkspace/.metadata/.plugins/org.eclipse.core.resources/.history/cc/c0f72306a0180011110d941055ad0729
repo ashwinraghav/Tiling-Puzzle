@@ -1,0 +1,15 @@
+package puzzle;
+
+import java.util.ArrayList;
+
+public class Game 
+{
+	ArrayList<Tile> tileList;
+	Tile board;
+	
+	Game(ArrayList<Tile> tileList, Tile board)
+	{
+		this.tileList = tileList;
+		this.board = board;
+	}
+}

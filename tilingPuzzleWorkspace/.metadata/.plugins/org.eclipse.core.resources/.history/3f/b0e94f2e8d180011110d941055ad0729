@@ -1,0 +1,16 @@
+package main;
+
+import java.io.File;
+
+import fileHandler.FileReader;
+
+public class Driver
+{
+
+	static public void start(String fileName)
+	{
+		FileReader.read(new File(fileName));
+	}
+	
+	
+}

@@ -1,0 +1,67 @@
+package algorithm;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+import puzzle.Color;
+import puzzle.Domino;
+
+public class PartIdentifier
+{
+	
+	/*
+	 * The output of this method is the list of tiles
+	 * and the board (which is also a tile) !
+	 * */
+	
+	public static void startIdentification(Domino[][] matrix, int numRows, int numCols) 
+	{
+		int maxDominos = 0;	//denotes the current max #dominoes in the tile.
+		
+		for(int i=0; i<numRows; ++i)
+		{
+			for(int j=0; j<numCols; ++j)
+			{
+				if(matrix[i][j] == null)	//no domino there in the input matrix
+					continue;
+				
+				if(matrix[i][j].getColor() == Color.Black)	//domino already part of some-noted tile
+					continue;
+				
+				runSearch(matrix, i, j , numRows, numCols);
+			}
+		}
+		
+		
+	}
+
+	private static int runSearch(Domino[][] matrix, int i, int j, int numRows,
+			int numCols) 
+	{
+		Queue<Cell> queue = new LinkedList<Cell>();
+		Cell cell = new Cell(i,j);
+		
+		while(cell != null)
+		{
+			int i = cell.getI();
+			int j = cell.getJ();
+			if(i < numRows - 1)	//I am not in the lastRow
+			{
+				if(matrix[i+1][j] != null)
+				{
+					
+				}
+			}
+			
+			if(j < numCols - 1) //I am not in the lastCol
+			{
+				
+			}
+		}
+		return 0;
+		
+	}
+
+	
+	
+}

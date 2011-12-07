@@ -1,0 +1,12 @@
+package main;
+
+public class ErrorHandler 
+{
+
+	public void throwError(String msg)
+	{
+		System.out.println(errorMessage);
+		System.exit(1);
+	}
+	
+}

@@ -1,0 +1,14 @@
+package fileHandler;
+
+import java.io.File;
+
+public class FileReader
+{
+	
+	static public void read(String fileName)
+	{
+		File file = new File (fileName);
+		
+	}
+	
+}

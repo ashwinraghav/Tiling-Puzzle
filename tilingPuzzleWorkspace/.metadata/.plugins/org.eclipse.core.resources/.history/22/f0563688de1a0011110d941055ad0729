@@ -1,0 +1,18 @@
+package algorithm;
+
+import java.util.ArrayList;
+import puzzle.Tile;
+
+public class TileTurner 
+{
+
+	public static ArrayList<Tile> getTurnedTileList(Tile tile)
+	{
+		ArrayList<Tile> turnedTileList = new ArrayList<Tile>();
+		
+		
+		
+		
+		return null;
+	}
+}

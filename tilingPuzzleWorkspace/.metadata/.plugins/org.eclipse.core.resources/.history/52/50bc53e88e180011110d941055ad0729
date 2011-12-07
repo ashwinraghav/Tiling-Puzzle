@@ -1,0 +1,8 @@
+package puzzle;
+
+public enum Color
+{
+	Alive,
+	Dead,
+	Reconfiguring;
+}

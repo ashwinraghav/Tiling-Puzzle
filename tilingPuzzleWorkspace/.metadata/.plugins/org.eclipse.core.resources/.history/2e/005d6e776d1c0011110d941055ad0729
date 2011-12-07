@@ -1,0 +1,14 @@
+package algorithm;
+
+import java.util.ArrayList;
+
+public class ColumnComparator
+{
+
+	public static boolean compare(ArrayList<Integer> list1, ArrayList<Integer> list2) 
+	{
+		
+		
+	}
+
+}

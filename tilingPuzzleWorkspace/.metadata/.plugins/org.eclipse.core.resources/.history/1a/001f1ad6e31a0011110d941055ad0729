@@ -1,0 +1,29 @@
+package algorithm;
+
+import java.util.ArrayList;
+
+import puzzle.Domino;
+import puzzle.Tile;
+
+public class TileTurner 
+{
+
+	public static ArrayList<Tile> getTurnedTileList(Tile tile, Domino[][] matrix)
+	{
+		ArrayList<Tile> turnedTileList = new ArrayList<Tile>(3);
+		
+		Tile tile90 = turnTile(tile);
+		Tile tile180 = turnTile(tile90);
+		Tile tile270 = turnTile(tile180);
+		turnedTileList.add(tile90);
+		turnedTileList.add(tile180);
+		turnedTileList.add(tile270);
+		return null;
+	}
+
+	private static Tile turnTile(Tile tile) 
+	{
+		
+		return null;
+	}
+}

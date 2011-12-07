@@ -1,0 +1,11 @@
+package main;
+
+
+public class Main
+{
+	public static void main(String[] args)
+	{
+		String inputFile = new String ("/home/avinash/Downloads/puzzles/myTest.txt");
+		Driver.start(inputFile);
+	}
+}

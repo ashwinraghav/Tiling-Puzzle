@@ -1,0 +1,14 @@
+package puzzle;
+
+public class Tile
+{
+	private Cell startingCell;
+	private int numDominos;
+	
+	Tile(Cell cell)
+	{
+		startingCell = cell;
+		numDominos = 0;
+	}
+	
+}

@@ -1,0 +1,40 @@
+package utility;
+
+import algorithm.dancinglinks.DataObject;
+
+public class Printing
+{
+
+
+	public static void rightPrint(DataObject header) 
+	{
+		
+		DataObject tmp = header.getRight();
+		System.out.println("right print");
+		int count = 0;
+		while(tmp != header)
+		{
+			System.out.print(tmp.getName() +" ");
+			tmp = tmp.getRight();
+			count++;
+		}
+		System.out.println("total number of elements = " + count);
+		
+	}
+	
+	public static void leftPrint(DataObject header) 
+	{
+		System.out.println("left print");
+		DataObject tmp = header.getLeft();
+		int count = 0;
+		while(tmp != header)
+		{
+			System.out.print(tmp.getName()+ " ");
+			tmp = tmp.getLeft();
+			count++;
+		}
+		System.out.println("total number of elements = " + count);
+	}
+	
+	
+}

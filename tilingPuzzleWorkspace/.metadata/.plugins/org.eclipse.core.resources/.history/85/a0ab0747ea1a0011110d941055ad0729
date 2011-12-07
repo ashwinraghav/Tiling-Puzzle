@@ -1,0 +1,42 @@
+package algorithm;
+
+import java.util.ArrayList;
+
+import puzzle.Domino;
+import puzzle.Tile;
+
+public class TileTurner 
+{
+
+	public static ArrayList<Tile> getTurnedTileList(Tile tile, Domino[][] matrix)
+	{
+						
+		//Anti clock-wise 90deg
+		Domino[][] matrix90anti = new Domino[tile.getxDimension()][tile.getyDimension()];
+		int i=0,j=0;
+		for(i=0; i<tile.getyDimension(); ++i)
+		{
+			for(j=0; j< tile.getxDimension(); ++j)
+			{
+				matrix90anti[i][j] = matrix[j][i];
+			}
+		}
+		
+		tile.addFlippedTileMatrix(matrix90anti);
+		
+		//Clock-wise 90deg
+		Domino[][] matrix90clk = new Domino[tile.getxDimension()][tile.getyDimension()];
+		for(int lcv=0; lcv<tile.getyDimension(); ++lcv)
+		{
+			for(int lcv2=0; lcv2< tile.getxDimension(); ++lcv2)
+			{
+				matrix90clk[a][a] = matrix90anti[i][j];
+			}
+		}
+		
+		
+		
+		return null;
+	}
+	
+}

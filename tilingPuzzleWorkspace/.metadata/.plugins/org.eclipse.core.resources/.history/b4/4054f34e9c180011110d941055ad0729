@@ -1,0 +1,9 @@
+package puzzle;
+
+public class Tile
+{
+	private int i;
+	private int j;
+	private int numDominos;
+	
+}

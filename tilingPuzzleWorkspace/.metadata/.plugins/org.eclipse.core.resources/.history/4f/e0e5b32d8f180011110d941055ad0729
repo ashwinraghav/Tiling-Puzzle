@@ -1,0 +1,20 @@
+package main;
+
+import java.io.File;
+
+import fileHandler.FileReader;
+import fileHandler.InputMatrixInfo;
+
+public class Driver
+{
+
+	static public void start(String fileName)
+	{
+		InputMatrixInfo inputMatrix = FileReader.doPassOne(new File(fileName));
+		
+		
+		
+	}
+	
+	
+}

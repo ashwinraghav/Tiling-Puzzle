@@ -1,0 +1,56 @@
+package puzzle;
+
+public class Domino
+{
+	private Color color;
+	private char val;
+	private int id;
+	
+	public Domino(char val)
+	{
+		color = Color.Grey;
+		this.val = val;
+		setId(-1);
+	}
+	
+	@Override
+	public String toString()
+	{
+		return Character.toString(val);
+	}
+	
+	public Color getColor()
+	{
+		return color;
+	}
+	
+	public void setColor(Color newColor)
+	{
+		color = newColor;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj == this)
+			return true;
+		
+		if(obj == null || obj.getClass() != this.getClass())
+			return false;
+		
+		Domino d = (Domino) obj;
+		if(this.val == d.val)
+			return true;
+	
+		else
+			return false;
+	}
+}

@@ -1,0 +1,7 @@
+package fileHandler;
+
+public class InputMatrixInfo
+{
+	int numRows;
+	int numCols;
+}

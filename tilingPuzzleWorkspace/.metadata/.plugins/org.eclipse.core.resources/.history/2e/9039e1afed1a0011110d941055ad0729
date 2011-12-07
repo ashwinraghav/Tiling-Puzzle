@@ -1,0 +1,59 @@
+package algorithm;
+
+
+import puzzle.Domino;
+import puzzle.Tile;
+
+public class TileTurner 
+{
+
+	public static void turnThisTileCompletely (Tile tile, Domino[][] matrix)
+	{
+						
+		//reflect input matrix first
+		reflectTile(tile,matrix, tile.getyDimension(), tile.getxDimension());
+		turnTile(tile, 
+				turnTile(tile,
+						turnTile(tile,matrix,tile.getxDimension(), tile.getyDimension()),
+				tile.getyDimension(), tile.getxDimension()), tile.getxDimension(), 
+				tile.getyDimension());
+		//This basically turns 90 deg first; then turns the 90 degree turn by 90; turns that by 90; 
+				
+	}
+
+	private static Domino[][] reflectTile(Tile tile, Domino[][] matrix, int rows, int cols)
+	{
+		Domino[][] reflectedMatrix = new Domino[rows][cols];
+		for(int i=0; i<rows; i++)
+		{
+			for(int j=0; j<cols; ++j)
+			{
+				reflectedMatrix[i][cols-j-1] = matrix[i][j];
+			}
+		}
+		tile.addFlippedTileMatrix(reflectedMatrix);
+		return reflectedMatrix;
+	}
+
+	private static Domino[][] turnTile(Tile tile, Domino[][] matrix, int rows, int cols) 
+	{
+		Domino[][] matrix90anti = new Domino[rows][cols];
+		
+		int i=0,j=0;
+		for(i=0; i<tile.getyDimension(); ++i)
+		{
+			for(j=0; j< tile.getxDimension(); ++j)
+			{
+				matrix90anti[i][j] = matrix[j][i];
+			}
+		}
+		
+		tile.addFlippedTileMatrix(matrix90anti);
+		
+		//Clock-wise 90deg
+		//j represents the last column + 1
+		
+		return(reflectTile(tile, matrix90anti, rows, cols));
+	}
+	
+}

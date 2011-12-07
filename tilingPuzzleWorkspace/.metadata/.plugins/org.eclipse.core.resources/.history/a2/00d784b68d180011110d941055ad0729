@@ -1,0 +1,21 @@
+package main;
+
+import java.io.File;
+
+import fileHandler.FileReader;
+
+public class Driver
+{
+
+	static public void start(String fileName)
+	{
+		boolean success = FileReader.doPassOne(new File(fileName));
+		if(!success)
+			ErrorHandler.throwAndTerminate("attempt to read from file failed");
+		
+		
+		
+	}
+	
+	
+}

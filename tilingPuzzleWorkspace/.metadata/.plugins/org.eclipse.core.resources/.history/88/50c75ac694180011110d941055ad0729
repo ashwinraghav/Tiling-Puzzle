@@ -1,0 +1,13 @@
+package main;
+
+public class ErrorHandler 
+{
+	
+
+	static public void throwAndTerminate(String msg)
+	{
+		System.out.println(msg);
+		System.exit(1);
+	}
+	
+}

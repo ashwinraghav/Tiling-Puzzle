@@ -1,0 +1,8 @@
+package puzzle;
+
+public class Board {
+
+	Tile tile;
+	int cellId;
+	
+}

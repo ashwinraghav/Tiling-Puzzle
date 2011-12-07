@@ -1,0 +1,188 @@
+package algorithm;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.Queue;
+
+import puzzle.Color;
+import puzzle.Domino;
+import puzzle.Game;
+import puzzle.Tile;
+
+public class PartIdentifier
+{
+	
+	/*
+	 * The output of this method is the Game - a list of tiles
+	 * and the board (which is also a tile) !
+	 * */
+	
+	public static Game startIdentification(Domino[][] matrix, int numRows, int numCols) 
+	{
+		int maxDominos = 0;	//denotes the current max #dominoes in the tile.
+		ArrayList<Tile> tileList = new ArrayList<Tile>();
+		
+		int tileIdentifier = 0;
+		int boardId = 0;
+		
+		for(int i=0; i<numRows; ++i)
+		{
+			for(int j=0; j<numCols; ++j)
+			{
+				if(matrix[i][j] == null)	//no domino there in the input matrix
+					continue;
+				
+				if(matrix[i][j].getColor() == Color.Black)	//domino already part of some-noted tile
+					continue;
+				
+				Tile tile = runSearch(matrix, i, j , numRows, numCols);
+				
+				if(tile == null)
+				{
+					//this shouldn't happen  !
+					System.out.println("This shouldn't happen");
+					continue;
+				}
+				
+				tile.setId(tileIdentifier);
+				tileList.add(tile);
+				
+				if(tile.getNumDominos() > maxDominos)
+				{
+					maxDominos = tile.getNumDominos();
+					boardId = tileIdentifier;
+				}
+				
+				tileIdentifier++;
+			}
+		}
+		
+		Tile board = tileList.remove(boardId);
+		board.nameAllDominos(matrix);
+		Game game = new Game(tileList, board);
+		return game;
+	}
+
+	private static Tile runSearch(Domino[][] matrix, int i, int j, int numRows,
+			int numCols) 
+	{
+		Queue<Cell> queue = new LinkedList<Cell>();
+		Cell cell = new Cell(i,j);
+		
+		int highestI = i;
+		int highestJ = j;
+		int lowestI = i;
+		int lowestJ = j;
+		
+		int numDominos = 0;
+		
+		Collection<Domino> dominoList = new LinkedList<Domino>();
+		
+		while(true)
+		{
+			matrix[i][j].setColor(Color.Black);
+			dominoList.add(matrix[i][j]);
+			numDominos++;
+			int rowNum = cell.getI();
+			int colNum = cell.getJ();
+			
+			if(rowNum > highestI)
+				highestI = rowNum;
+			
+			if(colNum > highestJ)
+				highestJ = colNum;
+			
+			if(rowNum < lowestI)
+				lowestI = rowNum;
+			
+			if(colNum < lowestJ)
+				lowestJ = colNum;		
+				
+			boolean isNorth = false, isSouth = false, isEast = false, isWest = false;
+			
+			if(rowNum < numRows - 1)	//Am I in the lastRow
+				isSouth = true;
+			
+			if(rowNum>0 && rowNum < numRows) //Am I in the firstRow	
+				isNorth = true;
+			
+			if(colNum < numCols - 1)	//Am I the rightmostColumn
+				isEast = true;
+			
+			if(colNum > 0 && colNum < numCols) //Am I the leftmost Column
+				isWest = true;
+			
+			if(isSouth)	
+				if(matrix[rowNum+1][colNum] != null && matrix[rowNum+1][colNum].getColor() == Color.Grey)	//my bottom (South)
+				{
+					queue.add(new Cell(rowNum+1, colNum));
+					matrix[rowNum+1][colNum].setColor(Color.White);
+				}
+			
+			
+			if(isNorth)	//my top (North)
+				if(matrix[rowNum-1][colNum] != null && matrix[rowNum-1][colNum].getColor() == Color.Grey)
+				{
+					queue.add(new Cell(rowNum-1, colNum));
+					matrix[rowNum-1][colNum].setColor(Color.White);
+				}
+				
+			if(isEast) //I am not in the lastCol
+				if(matrix[rowNum][colNum + 1] != null && matrix[rowNum][colNum+1].getColor() == Color.Grey )	//my right (East)
+				{
+					queue.add(new Cell(rowNum, colNum+1));
+					matrix[rowNum][colNum+1].setColor(Color.White);
+				}
+				
+			if(isWest) //I am not in the lastCol
+				if(matrix[rowNum][colNum - 1] != null && matrix[rowNum][colNum-1].getColor() == Color.Grey)	//my left (West)
+				{
+					queue.add(new Cell(rowNum, colNum-1));
+					matrix[rowNum][colNum-1].setColor(Color.White);
+				}				
+			
+			if(isEast && isNorth)
+				if(matrix[rowNum-1][colNum + 1] != null && matrix[rowNum-1][colNum+1].getColor() == Color.Grey)	//my top&right (NE)
+				{
+					queue.add(new Cell(rowNum-1, colNum+1));
+					matrix[rowNum-1][colNum+1].setColor(Color.White);
+				}
+				
+			if(isWest && isNorth)
+				if(matrix[rowNum-1][colNum - 1] != null && matrix[rowNum-1][colNum-1].getColor() == Color.Grey)	//my top&left (NW)
+				{
+					queue.add(new Cell(rowNum-1, colNum-1));
+					matrix[rowNum-1][colNum-1].setColor(Color.White);
+				}
+				
+			if(isEast && isSouth)
+				if(matrix[rowNum+1][colNum + 1] != null && matrix[rowNum+1][colNum+1].getColor() == Color.Grey)	//my bottom&right (SE)
+				{
+					queue.add(new Cell(rowNum+1, colNum+1));
+					matrix[rowNum+1][colNum+1].setColor(Color.White);
+				}
+				
+			if(isWest && isSouth)
+				if(matrix[rowNum+1][colNum - 1] != null && matrix[rowNum+1][colNum-1].getColor() == Color.Grey)	//my bottom&left (SW)
+				{
+					queue.add(new Cell(rowNum+1, colNum-1));
+					matrix[rowNum+1][colNum-1].setColor(Color.White);
+				}
+						
+			cell = queue.poll();
+			if(cell == null)
+				break;
+			i = cell.getI();
+			j = cell.getJ();
+		}
+		
+		Cell startCell = new Cell(lowestI, lowestJ);
+		Cell endCell = new Cell(highestI, highestJ);
+		Domino[][] correspondingMatrix = new Domino[(endingCell.getJ() - startCell.getJ() + 1)][];
+		
+		return new Tile(startCell, endCell, numDominos, dominoList);
+		
+	}	
+	
+}

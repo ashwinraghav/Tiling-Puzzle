@@ -1,0 +1,13 @@
+package fileHandler;
+
+public class InputMatrixInfo
+{
+	int numRows;
+	int numCols;
+	
+	InputMatrixInfo(int numRows, int numCols)
+	{
+		this.numCols = numCols;
+		this.numRows = numRows;
+	}
+}

@@ -1,0 +1,13 @@
+package puzzle;
+
+public class Domino
+{
+	Color color;
+	char val;
+	
+	Domino(char val)
+	{
+		color = Color.Grey;
+		this.val = val;
+	}
+}

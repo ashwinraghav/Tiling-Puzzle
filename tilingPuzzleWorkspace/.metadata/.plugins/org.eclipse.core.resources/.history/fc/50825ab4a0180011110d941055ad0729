@@ -1,0 +1,51 @@
+package main;
+
+import java.io.File;
+
+import algorithm.PartIdentifier;
+import puzzle.Domino;
+import puzzle.Game;
+import fileHandler.FileReader;
+import fileHandler.InputMatrixInfo;
+
+public class Driver
+{
+
+	static public void start(String fileName)
+	{
+		InputMatrixInfo inputMatrix = FileReader.doPassOne(new File(fileName));
+		int numRows = inputMatrix.getNumRows();
+		int numCols = inputMatrix.getNumCols();
+		Domino[][] matrix = new Domino[numRows][numCols];
+		FileReader.loadMatrix(new File(fileName), matrix);
+		
+	//	printMatrix(matrix, numRows, numCols);
+		
+		Game game = PartIdentifier.startIdentification(matrix, numRows, numCols);
+		printGame(game);
+		
+				
+	}
+
+	private static void printGame(Game game)
+	{
+		
+	}
+	
+	private static void printMatrix(Domino[][] matrix, int rows, int cols) 
+	{
+		 for(int i=0; i<rows; ++i)
+		 {
+			 for(int j=0; j<cols; ++j)
+			 {
+				 if(matrix[i][j] == null)
+					 System.out.print("n ");
+				 else
+					 System.out.print(matrix[i][j] + " ");
+			 }
+			 System.out.println();
+		 }	 
+	}
+	
+	
+}

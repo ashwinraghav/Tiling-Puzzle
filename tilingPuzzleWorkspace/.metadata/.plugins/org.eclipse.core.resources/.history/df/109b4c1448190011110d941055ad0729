@@ -1,0 +1,11 @@
+package algorithm.dancinglinks;
+
+public class DancingLinksImpl
+{
+
+	static void initializeTop()
+	{
+		
+	}
+	
+}

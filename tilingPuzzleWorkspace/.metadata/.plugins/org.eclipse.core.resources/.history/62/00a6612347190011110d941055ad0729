@@ -1,0 +1,20 @@
+package algorithm.dancinglinks;
+
+public class DataObject
+{
+
+	DataObject left;
+	DataObject right;
+	DataObject up;
+	DataObject down;
+	DataObject colData;
+	
+	int logicalRow;
+	int logicalCol;
+	
+	int size;
+	String name;
+	
+	
+	
+}

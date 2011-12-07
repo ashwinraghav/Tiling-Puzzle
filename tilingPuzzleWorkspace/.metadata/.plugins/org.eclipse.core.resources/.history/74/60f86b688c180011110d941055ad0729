@@ -1,0 +1,12 @@
+package main;
+
+import fileHandler.FileReader;
+
+public class Driver
+{
+	public static void main(String[] args)
+	{
+		String inputFile = new String ("trivial");
+		FileReader.read(inputFile);
+	}
+}

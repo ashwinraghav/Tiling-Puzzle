@@ -1,0 +1,53 @@
+package puzzle;
+
+import algorithm.Cell;
+
+public class Tile
+{
+	private Cell startingCell;
+	private Cell endingCell;
+	private int xDimension;
+	private int yDimension;
+	private int numDominos;
+	private int id;
+	
+	Tile(Cell startCell, Cell endCell, numDominos)
+	{
+		startingCell = startCell;
+		endingCell = endCell;
+		yDimension = (endingCell.getI() - startCell.getI() + 1);
+		xDimension = (endingCell.getJ() - startCell.getJ() + 1);
+		numDominos = 0;
+		id = 0;
+	}
+
+	public Cell getStartingCell() {
+		return startingCell;
+	}
+
+	public Cell getEndingCell() {
+		return endingCell;
+	}
+
+	public int getxDimension() {
+		return xDimension;
+	}
+
+	public int getyDimension() {
+		return yDimension;
+	}
+
+	public int getNumDominos() {
+		return numDominos;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	
+}

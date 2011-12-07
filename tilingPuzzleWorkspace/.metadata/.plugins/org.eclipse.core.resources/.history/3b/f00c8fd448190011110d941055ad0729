@@ -1,0 +1,38 @@
+package algorithm.dancinglinks;
+
+public class DancingLinksImpl
+{
+
+	public static void initializeTop(DataObject header, int colSize)
+	{
+		
+		DataObject current = header;
+		int len = colSize;
+		char name = 65;
+		
+		for(int j=0; j < len; ++j)
+		{
+			DataObject tmp = new DataObject();			
+			/*tmp.setName(Character.toString(name));
+			name += 1;*/
+			
+			current.right = tmp;
+			tmp.left = current;
+			current = tmp;
+			
+			tmp.down = tmp;
+			tmp.up = tmp;
+			
+			if(j+1 >= len)
+			{
+				tmp.right = header;
+				header.left = tmp;
+			}	
+			
+/*			topPointerList.add(j, tmp);*/
+		}								
+	}
+	
+	
+	
+}

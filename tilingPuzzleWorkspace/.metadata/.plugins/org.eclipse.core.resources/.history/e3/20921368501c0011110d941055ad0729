@@ -1,0 +1,83 @@
+package algorithm.dancinglinks;
+
+public class DataObject
+{
+
+	 DataObject left;
+	 DataObject right;
+	 DataObject up;
+	 DataObject down;
+	 DataObject colData;
+	 int size;
+	 
+	 public DataObject getLeft() {
+		return left;
+	}
+
+
+	public DataObject getRight() {
+		return right;
+	}
+
+
+	public DataObject getUp() {
+		return up;
+	}
+
+
+	public DataObject getDown() {
+		return down;
+	}
+
+
+	public int getSize() {
+		return size;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+	String name;
+			 		
+	public DataObject getColData() 
+	{
+		return colData;
+	}
+
+	
+	public DataObject()
+	{
+		left = this;
+		right = this;
+		up = this;
+		down = this;
+		colData = null;		
+		size = 0;
+		name = null;
+	}
+	
+	public DataObject(String name)
+	{
+		left = this;
+		right = this;
+		up = this;
+		down = this;
+		colData = null;		
+		size = 0;
+		this.name = name;
+	}
+	
+	public void setName(String s) 
+	{
+		name = s;		
+	}
+	
+	@Override
+	public String toString()
+	{
+		return name;
+	}
+	
+}

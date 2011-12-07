@@ -1,0 +1,23 @@
+package algorithm;
+
+import java.util.ArrayList;
+import puzzle.Tile;
+
+public class TileTurner 
+{
+
+	public static ArrayList<Tile> getTurnedTileList(Tile tile)
+	{
+		ArrayList<Tile> turnedTileList = new ArrayList<Tile>();
+		
+		for(int i=0; i<3; ++i)	//3 denotes each of the 90deg rotations (90,180,270)
+		{
+			
+		}
+			
+		
+		
+		
+		return null;
+	}
+}

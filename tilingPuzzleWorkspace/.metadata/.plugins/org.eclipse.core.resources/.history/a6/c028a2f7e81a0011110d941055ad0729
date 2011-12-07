@@ -1,0 +1,27 @@
+package algorithm;
+
+import java.util.ArrayList;
+
+import puzzle.Domino;
+import puzzle.Tile;
+
+public class TileTurner 
+{
+
+	public static ArrayList<Tile> getTurnedTileList(Tile tile, Domino[][] matrix)
+	{
+		ArrayList<Tile> turnedTileList = new ArrayList<Tile>(3);
+		Domino[][] resMatrix = new Domino[tile.getxDimension()][tile.getyDimension()];
+		for(int i=0; i<tile.getyDimension(); ++i)
+		{
+			for(int j=0; j< tile.getxDimension(); ++j)
+			{
+				resMatrix[i][j] = matrix[j][i];
+			}
+		}
+		
+		tile.addFlippedTileMatrix(resMatrix);		
+		return turnedTileList;
+	}
+	
+}

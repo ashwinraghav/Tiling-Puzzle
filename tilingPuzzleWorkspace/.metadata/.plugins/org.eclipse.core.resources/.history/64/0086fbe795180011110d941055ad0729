@@ -1,0 +1,25 @@
+package algorithm;
+
+import puzzle.Domino;
+
+public class PartIdentifier
+{
+
+	public static void startIdentification(Domino[][] matrix, int numRows, int numCols) 
+	{
+		int maxDominos = 0;	//denotes the current max #dominoes in the tile.
+		
+		for(int i=0; i<numRows; ++i)
+		{
+			for(int j=0; j<numCols; ++j)
+			{
+				
+			}
+		}
+		
+		
+	}
+
+	
+	
+}

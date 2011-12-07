@@ -1,0 +1,15 @@
+package algorithm;
+
+import puzzle.Domino;
+
+public class PartIdentifier
+{
+
+	public static void start(Domino[][] matrix, int numRows, int numCols) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	
+}

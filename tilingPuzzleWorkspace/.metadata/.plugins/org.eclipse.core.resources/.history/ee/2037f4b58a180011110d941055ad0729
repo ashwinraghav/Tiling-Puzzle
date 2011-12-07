@@ -1,0 +1,48 @@
+package fileHandler;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class FileReader
+{
+	
+	static public void read(String fileName)
+	{
+		File file = new File (fileName);
+		doPassOne(file);
+		
+	}
+
+	private static boolean doPassOne(File file) 
+	{
+		
+		Scanner scanner = null;
+		boolean success = true;  
+		
+        try 
+        {
+ 
+            scanner = new Scanner(file);
+                          
+            /* Reading from the file */
+            while (scanner.hasNextLine()) 	
+            {
+            	
+            }
+        }
+        
+        catch (FileNotFoundException fnfe) 
+        {
+        	System.out.println("Incorrect input file");
+        	fnfe.printStackTrace();            
+        }
+		
+        finally
+        {
+        	scanner.close();
+        }
+        
+	}
+	
+}

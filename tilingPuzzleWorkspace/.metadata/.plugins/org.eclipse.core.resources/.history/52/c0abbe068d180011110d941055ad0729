@@ -1,0 +1,15 @@
+package main;
+
+import fileHandler.FileReader;
+
+public class Driver
+{
+
+	static public void start(String fileName)
+	{
+		
+		FileReader.read(fileName);
+	}
+	
+	
+}

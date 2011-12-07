@@ -1,0 +1,72 @@
+package algorithm.dancinglinks;
+
+import java.util.ArrayList;
+
+import puzzle.Tile;
+
+public class DancingLinksImpl
+{
+
+	public static void initializeTop(DataObject header, int colSize, ArrayList<DataObject> topPointerList )
+	{
+		
+		DataObject current = header;
+		int len = colSize;
+		int name = 0;
+		
+		for(int j=0; j < len; ++j)
+		{
+			DataObject tmp = new DataObject(Integer.toString(name));			
+			name += 1;
+			
+			current.right = tmp;
+			tmp.left = current;
+			current = tmp;
+			
+		/*	tmp.down = tmp;
+			tmp.up = tmp;
+		*/	
+			if(j+1 >= len)
+			{
+				tmp.right = header;
+				header.left = tmp;
+			}	
+			
+			topPointerList.add(j, tmp);
+		}								
+	}
+	
+	public static void rightPrint(DataObject header) 
+	{
+		
+		DataObject tmp = header.right;
+		System.out.println("forward print");
+		while(tmp != header)
+		{
+			System.out.print(tmp.name +" ");
+			tmp = tmp.right;
+		}
+		System.out.println();
+	}
+	
+	public static void leftPrint(DataObject header) 
+	{
+		System.out.println("reverse print");
+		DataObject tmp = header.left;
+		while(tmp != header)
+		{
+			System.out.print(tmp.name+ " ");
+			tmp = tmp.left;
+		}
+		System.out.println();
+	}
+
+	public static void initializeGrid(ArrayList<Tile> tileList, Tile board) 
+	{
+		/*TODO: This algorithm is naive - but it is a black-box and can be editted 
+		*/
+		
+		
+	}
+	
+}

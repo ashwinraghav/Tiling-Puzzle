@@ -1,0 +1,81 @@
+package main;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
+
+import puzzle.Domino;
+import puzzle.Game;
+import puzzle.Tile;
+import utility.Printing;
+import algorithm.PartIdentifier;
+import algorithm.TileTurner;
+import algorithm.dancinglinks.DancingLinksImpl;
+import algorithm.dancinglinks.DataObject;
+import fileHandler.FileReader;
+import fileHandler.InputMatrixInfo;
+
+public class Driver
+{
+	
+	static public void start(String fileName)
+	{
+		InputMatrixInfo inputMatrix = FileReader.doPassOne(new File(fileName));
+		int numRows = inputMatrix.getNumRows();
+		int numCols = inputMatrix.getNumCols();
+		Domino[][] matrix = new Domino[numRows][numCols];
+		FileReader.loadMatrix(new File(fileName), matrix);
+		
+		Printing.printMatrix(matrix, numRows, numCols);
+		
+		Game game = PartIdentifier.startIdentification(matrix, numRows, numCols);
+		Printing.printGame(game);
+
+		DataObject header = new DataObject();
+				
+		int colSize = game.getTileList().size() + game.getBoard().getNumDominos();
+		int newId = 0;
+		
+		for(Tile tile : game.getTileList())
+			tile.setId(newId++);
+		
+		game.getBoard().setId(newId);
+		
+		ArrayList<DataObject> topPointerList = new ArrayList<DataObject>(colSize);
+		DancingLinksImpl.initializeTop(header, colSize, topPointerList);
+		Printing.rightPrint(header);
+		Printing.leftPrint(header);
+		
+//		Printing.printTopPointerList(topPointerList);
+			
+		HashMap< Tile, Set<ArrayList<Integer>>> mapping = new HashMap< Tile, Set<ArrayList<Integer>>>(); 
+		DancingLinksImpl.initializeGrid(game.getTileList(), game.getBoard(), matrix, mapping);
+	//	System.out.println("NO FLIP");
+	//	Printing.printMapping(mapping);
+	
+		for(Tile tile : game.getTileList())
+		{
+			Set<ArrayList<Integer>> columndIDMapping = mapping.get(tile);
+			TileTurner.turnThisTileCompletely(tile);
+			for(Domino[][] turnedMatrix : tile.getFlippedTileMatrices())
+			{
+				Set<ArrayList<Integer>> turnedColumndIDs =DancingLinksImpl.matchTileMatrixWithBoardMatrix(turnedMatrix, matrix, 0, 0, game.getBoard(), turnedMatrix[0].length, turnedMatrix.length);								
+				columndIDMapping.addAll(turnedColumndIDs);
+				mapping.put(tile, columndIDMapping);
+			}
+		}
+
+		System.out.println("AFTER FLIP");
+		Printing.printMapping(mapping);
+		ArrayList<DataObject> colPointerList = DancingLinksImpl.loadGrid(mapping, topPointerList, game.getTileList().size());
+		
+		Printing.getNumCoveredByEachTile(header, game.getTileList().size());
+		Printing.printGrid(header, colPointerList); 
+		
+		System.out.println("colSize=" + colSize);
+		DataObject[] dObj = new DataObject[colSize];
+		ArrayList<ArrayList<DataObject>> columnsCovered = new ArrayList<ArrayList<DataObject>>(); 
+		System.out.println("Number of solutions = " + (DancingLinksImpl.doExtraCover(0,dObj,0, header, game.getTileList().size(), game.getTileList().size(), columnsCovered)));
+	}		
+}

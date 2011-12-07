@@ -1,0 +1,13 @@
+package algorithm;
+
+public class Cell
+{
+	int i;	//denotes which row
+	int j; //denotes which column
+	
+	Cell(int romNum, int colNum)
+	{
+		i = rowNum;
+		j = colNum;
+	}
+}

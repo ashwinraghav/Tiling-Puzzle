@@ -1,0 +1,337 @@
+package algorithm.dancinglinks;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
+
+import puzzle.Domino;
+import puzzle.Tile;
+
+public class DancingLinksImpl
+{
+
+	public static void initializeTop(DataObject header, int colSize, ArrayList<DataObject> topPointerList )
+	{
+		
+		DataObject current = header;
+		int len = colSize;
+		int name = 0;
+		
+		for(int j=0; j < len; ++j)
+		{
+			DataObject tmp = new DataObject(Integer.toString(name));			
+			name += 1;
+			
+			current.right = tmp;
+			tmp.left = current;
+			current = tmp;
+			
+		/*	tmp.down = tmp;
+			tmp.up = tmp;
+		*/	
+			if(j+1 >= len)
+			{
+				tmp.right = header;
+				header.left = tmp;
+			}	
+			
+			topPointerList.add(j, tmp);
+		}								
+	}
+	
+	public static void rightPrint(DataObject header) 
+	{
+		
+		DataObject tmp = header.right;
+		System.out.println("forward print");
+		int count = 0;
+		while(tmp != header)
+		{
+			System.out.print(tmp.name +" ");
+			tmp = tmp.right;
+			count++;
+		}
+		System.out.println("total number of elements = " + count);
+		
+	}
+	
+	public static void leftPrint(DataObject header) 
+	{
+		System.out.println("reverse print");
+		DataObject tmp = header.left;
+		int count = 0;
+		while(tmp != header)
+		{
+			System.out.print(tmp.name+ " ");
+			tmp = tmp.left;
+			count++;
+		}
+		System.out.println("total number of elements = " + count);
+	}
+
+	
+	public static HashMap< Tile, ArrayList<ArrayList<Integer>> > initializeGrid(ArrayList<Tile> tileList, Tile board, Domino[][] matrix ) 
+	{
+		/*TODO: This algorithm is naive - brute-force 
+		*/
+		
+		int nRows = board.getyDimension();
+		int nCols = board.getxDimension();
+		int i,j,k,l, lcv1, lcv2;	//loop-control variables
+		
+		HashMap < Tile, ArrayList<ArrayList<Integer>> > mapping = new HashMap<Tile, ArrayList<ArrayList<Integer>>>();		
+		 
+		
+		for(Tile tile : tileList)
+		{
+			boolean flag = true;
+			int xDim = tile.getxDimension();
+			int yDim = tile.getyDimension();
+			int boardStartI = board.getStartingCell().getI();
+			int boardStartJ = board.getStartingCell().getJ();
+			int tileStartI = tile.getStartingCell().getI();
+			int tileStartJ = tile.getStartingCell().getJ();
+			
+			ArrayList<ArrayList<Integer>> collection = new ArrayList<ArrayList<Integer>>();
+			
+			for(lcv1 = boardStartI; lcv1 <= (nRows - yDim) + boardStartI ; lcv1++)
+			{
+				
+				for(lcv2= boardStartJ; lcv2 <= (nCols - xDim) + boardStartJ ; lcv2++)
+				{
+					ArrayList<Integer> columnId = new ArrayList<Integer>(xDim*yDim); 
+					
+					for(i= lcv1, k= tileStartI; i<nRows + boardStartI && k < yDim + tileStartI && flag == true; i++,k++ )
+					{
+						for(j = lcv2, l = tileStartJ; j<nCols + boardStartJ && l < xDim + tileStartJ && flag == true; j++, l++)
+						{
+							
+							if(matrix[k][l] == null)	//empty cell
+								continue;	
+				
+							if(matrix[k][l].equals(matrix[i][j]))
+							{
+								//get ColumnId
+								columnId.add(new Integer(matrix[i][j].getId()));
+								continue;
+							}
+							
+							flag = false;
+							
+						}
+						
+					}
+					
+					if(flag == true)
+					{
+		/*				System.out.println("Tile" + tile.getId() + "covers columns");
+						for(int lcv : columnId)
+						{
+							System.out.print(lcv + " ");
+						}
+						System.out.println("");												
+		*/			
+						collection.add(columnId);
+					}
+					
+					flag = true;
+				}
+				
+			}
+			mapping.put(tile, collection);
+		}
+		return mapping;
+	}
+
+	public static ArrayList<DataObject>  loadGrid(
+			HashMap<Tile, ArrayList<ArrayList<Integer>>> mapping, ArrayList<DataObject> topPointerList, Tile board, int offset) 
+	{
+		
+		DataObject boardObj = new DataObject();
+		insertMinion(boardObj, board.getId(), topPointerList);
+		
+		Set<Tile> tileSet = mapping.keySet();
+		ArrayList<DataObject> columnPointerList = new ArrayList<DataObject>();
+		
+		for(Tile tile : tileSet)
+		{
+			ArrayList<ArrayList<Integer>> colIdList = mapping.get(tile);	//the list of all conifugrations of this tile
+			int tileId = tile.getId();
+			
+			for(ArrayList<Integer> colIds : colIdList)	// one such configuration
+			{
+				DataObject rowLeader = new DataObject();
+				columnPointerList.add(rowLeader);
+				DataObject prev = new DataObject();
+				prev  = rowLeader;
+				insertMinion(rowLeader, tileId, topPointerList);
+				
+				for(Integer colId : colIds)	//each column in a configuration
+				{
+					DataObject tmp = new DataObject();
+					insertMinion(tmp, colId + offset, topPointerList);
+					prev.right = tmp;
+					tmp.left = prev;
+					tmp.right = rowLeader;
+					rowLeader.left = tmp;
+				}
+			}
+			
+		}
+		return columnPointerList;
+		
+	}
+
+	private static void insertMinion(DataObject dObj, int tileId, ArrayList<DataObject> topPointerList) 
+	{
+		DataObject columnObject = topPointerList.get(tileId);
+		dObj.up = columnObject.up;
+		columnObject.up.down = dObj;
+		dObj.down = columnObject;
+		dObj.up = columnObject;	
+		dObj.colData = columnObject;
+	}
+
+	public static void doExtraCover(int index, DataObject[] dObj, Integer numSolns, DataObject header) 
+	{
+		
+		if(header.right == header)
+		{
+			//print solution
+			for(int lcv=0; lcv<index; ++lcv)
+				System.out.print(dObj[lcv].logicalRow + ",");
+			System.out.println();
+			numSolns++;
+			return;
+		}
+		
+		else
+		{
+			DataObject c = chooseColumn(header);
+			cover(c);
+			
+			DataObject tmp = c.down;
+			while(tmp != c)	//going downwards for each row that fills
+			{
+				dObj[index] = tmp;	//for Printing purpose
+								
+				DataObject rightTmp = tmp.right;
+				while(rightTmp != tmp)
+				{
+					cover(rightTmp.colData);
+					rightTmp = rightTmp.right;					
+				}
+				doExtraCover(index+1, dObj, numSolns, header);
+				
+				DataObject leftTmp = tmp.left;
+				while(leftTmp != tmp)
+				{
+					uncover(leftTmp.colData);
+					leftTmp = leftTmp.left;
+				}
+				
+				tmp = tmp.down;
+			}
+			uncover(c);
+		}		
+		
+	}	
+	
+	private static void uncover(DataObject c) 
+	{
+		
+		System.out.println("Attempting to uncover "+ c.name);
+		
+		c.right.left = c;
+		c.left.right = c;
+		
+		DataObject dObj = c.up;
+		while(dObj != c)
+		{
+			DataObject unrowTrash = dObj.left;
+			while(unrowTrash != dObj)
+			{
+				unrowTrash.down.up = unrowTrash;
+				unrowTrash.up.down = unrowTrash;
+			//	unrowTrash.colData.size += 1;
+				unrowTrash = unrowTrash.left;	//move to the next col
+			}
+			
+			
+			dObj = dObj.up;
+		}
+		
+	}
+
+	private static void cover(DataObject c)
+	{
+		
+		System.out.println("Attempting to cover "+ c.name);
+		
+		c.right.left = c.left;
+		c.left.right = c.right;
+		
+		DataObject dObj = c.down;
+		while(dObj != c)	//for every row that fills c
+		{
+			
+			DataObject rowTrash = dObj.right;
+			while(rowTrash != dObj)
+			{
+				
+				rowTrash.down.up = rowTrash.up;
+				
+				rowTrash.up.down = rowTrash.down;
+			//	rowTrash.colData.size -= 1;
+				rowTrash = rowTrash.right;	//move to the next col
+				
+			}
+			
+			dObj = dObj.down;
+		}
+		
+		
+	}
+
+	private static DataObject chooseColumn(DataObject header) 
+	{
+		if(header.right == header)
+			return null;
+		
+		return header.right;
+	}
+
+	public static void printGrid(DataObject header, ArrayList<DataObject> colPointerList) 
+	{
+		
+		DataObject tmp = header.right;
+		int count = 0;
+		
+		while(tmp != header)
+		{
+			System.out.print(tmp.name +"\t");
+			tmp = tmp.right;
+			++count;
+		}
+		System.out.println();
+		
+		int[][] matrix = new int [colPointerList.size()][count];
+		
+		for( int i=0; i< colPointerList.size(); ++i )
+		{
+			DataObject lcv = colPointerList.get(i);
+			tmp = lcv.right;
+			
+			while(tmp != lcv)
+			{
+				matrix[i][Integer.parseInt(tmp.colData.name)] = 1;
+				tmp = tmp.right;
+			}
+			
+		}
+		
+		
+	}
+	
+	
+}

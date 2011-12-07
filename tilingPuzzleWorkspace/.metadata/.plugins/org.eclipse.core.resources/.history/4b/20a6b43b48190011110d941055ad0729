@@ -1,0 +1,13 @@
+package algorithm.dancinglinks;
+
+public class DancingLinksImpl
+{
+
+	public static void initializeTop(DataObject header, int colSize)
+	{
+		
+		
+		
+	}
+	
+}

@@ -1,0 +1,24 @@
+package algorithm;
+
+import java.util.ArrayList;
+import puzzle.Tile;
+
+public class TileTurner 
+{
+
+	public static ArrayList<Tile> turnTile(Tile tile)
+	{
+		ArrayList<Tile> turnedTileList = new ArrayList<Tile>();
+		
+		for(int i=tile.getStartingCell().getI(); i<tile.getyDimension(); ++i)
+		{
+			for(int j= tile.getStartingCell().getJ(); j < tile.getxDimension(); ++j)
+			{
+				
+			}
+		}
+		
+		
+		return null;
+	}
+}

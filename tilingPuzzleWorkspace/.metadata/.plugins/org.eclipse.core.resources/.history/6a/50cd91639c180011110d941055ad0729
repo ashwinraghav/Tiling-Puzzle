@@ -1,0 +1,16 @@
+package puzzle;
+
+public class Tile
+{
+	private int topMostVal;
+	private int j;
+	private int numDominos;
+	
+	Tile()
+	{
+		i = -1;
+		j = -1;
+		numDominos = 0;
+	}
+	
+}
